@@ -1,8 +1,7 @@
-import mongoose from 'mongoose';
 import app from './app';
+import { connectToDatabase } from './database';
 
 const port = Number(process.env.PORT || 8000);
-const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/octofit_db';
 
 const codespaceName = process.env.CODESPACE_NAME;
 const baseUrl = codespaceName
@@ -11,8 +10,7 @@ const baseUrl = codespaceName
 
 console.log(`API base URL: ${baseUrl}`);
 
-mongoose
-  .connect(mongoUrl)
+connectToDatabase()
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(port, () => {
