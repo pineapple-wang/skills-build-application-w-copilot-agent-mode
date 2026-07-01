@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
-const database_1 = require("./database");
+const database_1 = require("./config/database");
 const port = Number(process.env.PORT || 8000);
 const codespaceName = process.env.CODESPACE_NAME;
 const baseUrl = codespaceName
