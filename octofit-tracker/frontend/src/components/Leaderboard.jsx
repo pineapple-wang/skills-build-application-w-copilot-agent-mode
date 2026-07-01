@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getApiBaseUrl } from '../utils/api';
+import { getApiUrl } from '../utils/api';
 
 function Leaderboard() {
   const [items, setItems] = useState([]);
@@ -9,7 +9,7 @@ function Leaderboard() {
   useEffect(() => {
     const loadLeaderboard = async () => {
       try {
-        const response = await fetch(`${getApiBaseUrl()}/api/leaderboard/`);
+        const response = await fetch(getApiUrl('leaderboard'));
         if (!response.ok) {
           throw new Error('Unable to load leaderboard');
         }
@@ -17,7 +17,7 @@ function Leaderboard() {
         const data = Array.isArray(payload) ? payload : payload.items || [];
         setItems(data);
       } catch (err) {
-        setError(err.message);
+        setError(err instanceof Error ? err.message : 'Unable to load leaderboard');
       } finally {
         setLoading(false);
       }
