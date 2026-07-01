@@ -9,7 +9,7 @@ function Activities() {
   useEffect(() => {
     const loadActivities = async () => {
       try {
-        const response = await fetch(`${getApiBaseUrl()}/api/activities`);
+        const response = await fetch(`${getApiBaseUrl()}/api/activities/`);
         if (!response.ok) {
           throw new Error('Unable to load activities');
         }
