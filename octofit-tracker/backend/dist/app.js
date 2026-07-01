@@ -3,16 +3,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getApiBaseUrl = void 0;
 const express_1 = __importDefault(require("express"));
 const user_1 = require("./models/user");
 const team_1 = require("./models/team");
 const activity_1 = require("./models/activity");
 const leaderboard_1 = require("./models/leaderboard");
 const workout_1 = require("./models/workout");
+const getApiBaseUrl = (port = Number(process.env.PORT || 8000)) => {
+    const codespaceName = process.env.CODESPACE_NAME;
+    return codespaceName
+        ? `https://${codespaceName}-${port}.app.github.dev`
+        : `http://localhost:${port}`;
+};
+exports.getApiBaseUrl = getApiBaseUrl;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.locals.baseUrl = (0, exports.getApiBaseUrl)();
 const sendHealthResponse = (_req, res) => {
-    res.json({ status: 'ok', service: 'octofit-backend' });
+    res.json({
+        status: 'ok',
+        service: 'octofit-backend',
+        baseUrl: app.locals.baseUrl,
+    });
 };
 app.get('/', sendHealthResponse);
 app.get('/api/health', sendHealthResponse);

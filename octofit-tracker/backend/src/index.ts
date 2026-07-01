@@ -1,12 +1,10 @@
-import app from './app';
+import app, { getApiBaseUrl } from './app';
 import { connectToDatabase } from './config/database';
 
 const port = Number(process.env.PORT || 8000);
+const baseUrl = getApiBaseUrl(port);
 
-const codespaceName = process.env.CODESPACE_NAME;
-const baseUrl = codespaceName
-  ? `https://${codespaceName}-8000.app.github.dev`
-  : `http://localhost:${port}`;
+app.locals.baseUrl = baseUrl;
 
 console.log(`API base URL: ${baseUrl}`);
 

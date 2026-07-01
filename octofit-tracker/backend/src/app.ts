@@ -5,12 +5,24 @@ import { Activity } from './models/activity';
 import { Leaderboard } from './models/leaderboard';
 import { Workout } from './models/workout';
 
+export const getApiBaseUrl = (port = Number(process.env.PORT || 8000)) => {
+  const codespaceName = process.env.CODESPACE_NAME;
+  return codespaceName
+    ? `https://${codespaceName}-${port}.app.github.dev`
+    : `http://localhost:${port}`;
+};
+
 const app = express();
 
 app.use(express.json());
+app.locals.baseUrl = getApiBaseUrl();
 
 const sendHealthResponse = (_req: express.Request, res: express.Response) => {
-  res.json({ status: 'ok', service: 'octofit-backend' });
+  res.json({
+    status: 'ok',
+    service: 'octofit-backend',
+    baseUrl: app.locals.baseUrl,
+  });
 };
 
 app.get('/', sendHealthResponse);
